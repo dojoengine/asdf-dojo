@@ -1,0 +1,40 @@
+#!/usr/bin/env bash
+
+GH_REPO="https://github.com/dojoengine/dojo"
+
+PLATFORM="$(uname -s)"
+ARCHITECTURE="$(uname -m)"
+
+# Dependency checks
+if ! command -v curl &>/dev/null; then
+    echo "Error: curl is not installed." >&2
+    exit 1
+fi
+
+case $PLATFORM in
+    Linux) PLATFORM="linux" ;;
+    Darwin) PLATFORM="darwin" ;;
+    *) echo "Unsupported platform: $PLATFORM" >&2; exit 1 ;;
+esac
+
+case $ARCHITECTURE in
+    x86_64) ARCHITECTURE="amd64" ;;
+    arm64 | aarch64) ARCHITECTURE="arm64" ;;
+    *) ARCHITECTURE="amd64" ;;
+esac
+
+TAG="v${ASDF_INSTALL_VERSION}"
+EXT="tar.gz"
+RELEASE_URL="${GH_REPO}/releases/download/$TAG/"
+BIN_ARCHIVE_URL="${RELEASE_URL}dojo_${TAG}_${PLATFORM}_${ARCHITECTURE}.$EXT"
+CHECKSUM_URL="${RELEASE_URL}checksums.txt"
+
+# Ensure the destination directory exists
+mkdir -p "$ASDF_DOWNLOAD_PATH"
+echo "Downloading Dojo $ASDF_INSTALL_VERSION from $BIN_ARCHIVE_URL..."
+curl -fsSL "$BIN_ARCHIVE_URL" -o "$ASDF_DOWNLOAD_PATH/dojo_$ASDF_INSTALL_VERSION.$EXT"
+
+if [ $? -ne 0 ]; then
+    echo "Error: Failed to download version $ASDF_INSTALL_VERSION. Please make sure that the version exists." >&2
+    exit 1
+fi

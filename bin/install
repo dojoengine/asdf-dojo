@@ -1,0 +1,23 @@
+#!/usr/bin/env bash
+
+set -e
+
+VERSION=${1#"v"}
+INSTALL_PATH="$ASDF_INSTALL_PATH"
+EXT="tar.gz"
+
+# Check for tar dependency
+if ! command -v tar &>/dev/null; then
+    echo "Error: tar is not installed." >&2
+    exit 1
+fi
+
+echo "Installing Dojo $ASDF_INSTALL_VERSION to $INSTALL_PATH..."
+mkdir -p "$INSTALL_PATH/bin"
+tar -xzf "$ASDF_DOWNLOAD_PATH/dojo_$ASDF_INSTALL_VERSION.$EXT" -C "$INSTALL_PATH/bin"
+if [ $? -ne 0 ]; then
+    echo "Failed to extract the package." >&2
+    exit 1
+fi
+
+echo "Dojo version $ASDF_INSTALL_VERSION installed successfully to $INSTALL_PATH"

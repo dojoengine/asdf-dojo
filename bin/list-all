@@ -1,0 +1,26 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+GH_REPO="https://github.com/dojoengine/dojo"
+
+# Check for curl and git dependencies
+if ! command -v curl &>/dev/null; then
+    echo "Error: curl is not installed." >&2
+    exit 1
+fi
+
+if ! command -v git &>/dev/null; then
+    echo "Error: git is not installed." >&2
+    exit 1
+fi
+
+all_versions=$(git ls-remote --tags --refs "$GH_REPO" |
+        grep -o 'refs/tags/v.*' | cut -d/ -f3- |
+        sed 's/^v//' | sort -V)
+if [ $? -ne 0 ]; then
+    echo "Failed to fetch releases from GitHub." >&2
+    exit 1
+fi
+
+echo $all_versions
