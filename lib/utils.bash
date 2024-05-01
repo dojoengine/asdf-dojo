@@ -2,10 +2,9 @@
 
 set -euo pipefail
 
-# TODO: Ensure this is the correct GitHub homepage where releases can be downloaded for <YOUR TOOL>.
 GH_REPO="https://github.com/dojoengine/dojo"
-TOOL_NAME="Dojo"
-TOOL_TEST="katana"
+TOOL_NAME="dojo"
+TOOL_BINS=$(sozo katana torii dojo-language-server)
 
 fail() {
 	echo -e "asdf-$TOOL_NAME: $*"
@@ -14,7 +13,6 @@ fail() {
 
 curl_opts=(-fsSL)
 
-# NOTE: You might want to remove this if <YOUR TOOL> is not hosted on GitHub releases.
 if [ -n "${GITHUB_API_TOKEN:-}" ]; then
 	curl_opts=("${curl_opts[@]}" -H "Authorization: token $GITHUB_API_TOKEN")
 fi
@@ -31,8 +29,7 @@ list_github_tags() {
 }
 
 list_all_versions() {
-	# TODO: Adapt this. By default we simply list the tag names from GitHub releases.
-	# Change this function if <YOUR TOOL> has other means of determining installable versions.
+	# Change this function if Dojo has other means of determining installable versions.
 	list_github_tags
 }
 
@@ -41,8 +38,15 @@ download_release() {
 	version="$1"
 	filename="$2"
 
-	# TODO: Adapt the release URL convention for <YOUR TOOL>
-	url="$GH_REPO/archive/v${version}.tar.gz"
+	# Build the URL to download the release tarball
+	local tag os arch
+	tag="v${version}"
+	arch=$(uname -m)
+	os=$(uname -s)
+	os=$(echo ${os} | tr '[:upper:]' '[:lower:]') # Convert the OS name to lowercase
+
+	local tarball="dojo_${tag}_${os}_${arch}.tar.gz"
+	url="${repository}/releases/download/${tag}/${tarball}"
 
 	echo "* Downloading $TOOL_NAME release $version..."
 	curl "${curl_opts[@]}" -o "$filename" -C - "$url" || fail "Could not download $url"
@@ -61,16 +65,12 @@ install_version() {
 		mkdir -p "$install_path"
 		cp -r "$ASDF_DOWNLOAD_PATH"/* "$install_path"
 
-		# TODO: Assert <YOUR TOOL> executable exists.
-		local tool_cmd
-		tool_cmd="$(echo "$TOOL_TEST" | cut -d' ' -f1)"
-		test -x "$install_path/$tool_cmd" || fail "Expected $install_path/$tool_cmd to be executable."
+		# Ensure all binaries exist and executable
+		for bin in "${TOOL_BINS[@]}"; do
+			test -x "$install_path/$bin" || fail "Expected $install_path/$bin to be executable."
+		done
 
-		if [ -x "$install_path/$tool_cmd" ]; then
-			echo "$TOOL_NAME $version installation was successful!"
-		else
-			echo "$TOOL_NAME $version either does not exist in $install_path or is not executable."
-		fi
+		echo "$TOOL_NAME $version installation was successful!"
 
 	) || (
 		rm -rf "$install_path"
