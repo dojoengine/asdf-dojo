@@ -4,7 +4,7 @@ set -euo pipefail
 
 GH_REPO="https://github.com/dojoengine/dojo"
 TOOL_NAME="dojo"
-TOOL_BINS=$(sozo katana torii dojo-language-server)
+TOOL_BINS=(sozo katana torii dojo-language-server)
 
 fail() {
 	echo -e "asdf-$TOOL_NAME: $*"
