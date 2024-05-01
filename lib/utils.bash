@@ -46,7 +46,7 @@ download_release() {
 	os=$(echo ${os} | tr '[:upper:]' '[:lower:]') # Convert the OS name to lowercase
 
 	local tarball="dojo_${tag}_${os}_${arch}.tar.gz"
-	url="${repository}/releases/download/${tag}/${tarball}"
+	url="${GH_REPO}/releases/download/${tag}/${tarball}"
 
 	echo "* Downloading $TOOL_NAME release $version..."
 	curl "${curl_opts[@]}" -o "$filename" -C - "$url" || fail "Could not download $url"
