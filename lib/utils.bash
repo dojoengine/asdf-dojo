@@ -42,6 +42,10 @@ download_release() {
 	local tag os arch
 	tag="v${version}"
 	arch=$(uname -m)
+	if [ "$arch" == "x86_64" ] 
+	then
+		arch="amd64"
+	fi
 	os=$(uname -s)
 	os=$(echo ${os} | tr '[:upper:]' '[:lower:]') # Convert the OS name to lowercase
 
