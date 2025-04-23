@@ -46,6 +46,10 @@ download_release() {
 	then
 		arch="amd64"
 	fi
+	if [ "$arch" == "aarch64" ] 
+	then
+		arch="arm64"
+	fi
 	os=$(uname -s)
 	os=$(echo ${os} | tr '[:upper:]' '[:lower:]') # Convert the OS name to lowercase
 
