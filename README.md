@@ -28,6 +28,14 @@ Plugin:
 asdf plugin add dojo https://github.com/dojoengine/asdf-dojo.git
 ```
 
+If you already had dojo installed and you want to force the update, two choices:
+1. Modifying your `~/.asdfrc` and set the [last check duration](asdf plugin add dojo https://github.com/dojoengine/asdf-dojo.git) to 0.
+2. Remove and re-add the plugin:
+```bash
+asdf plugin remove dojo
+asdf plugin add dojo https://github.com/dojoengine/asdf-dojo.git
+```
+
 Dojo:
 
 ```shell
