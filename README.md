@@ -24,8 +24,7 @@
 Plugin:
 
 ```shell
-asdf plugin add dojo
-# or
+# Always use the full URL to ensure no ambiguity with other plugins.
 asdf plugin add dojo https://github.com/dojoengine/asdf-dojo.git
 ```
 
