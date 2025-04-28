@@ -1,6 +1,6 @@
 <div align="center">
 
-# asdf-dojo [![Build](https://github.com/dojoengine/asdf-dojo/actions/workflows/build.yml/badge.svg)](https://github.com/dojoengine/asdf-dojo/actions/workflows/build.yml) [![Lint](https://github.com/dojoengine/asdf-dojo/actions/workflows/lint.yml/badge.svg)](https://github.com/dojoengine/asdf-dojo/actions/workflows/lint.yml)
+# asdf-dojo
 
 [Dojo](https://github.com/dojoengine/dojo) plugin for the [asdf version manager](https://asdf-vm.com).
 

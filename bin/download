@@ -8,16 +8,8 @@ plugin_dir=$(dirname "$(dirname "$current_script_path")")
 # shellcheck source=./lib/utils.bash
 source "${plugin_dir}/lib/utils.bash"
 
-mkdir -p "$ASDF_DOWNLOAD_PATH"
+mkdir -p "${ASDF_DOWNLOAD_PATH}"
 
-# TODO: Adapt this to proper extension and adapt extracting strategy.
-release_file="$ASDF_DOWNLOAD_PATH/$TOOL_NAME-$ASDF_INSTALL_VERSION.tar.gz"
+download_dojoup
 
-# Download tar.gz file to the download directory
-download_release "$ASDF_INSTALL_VERSION" "$release_file"
-
-#  Extract contents of tar.gz file into the download directory
-tar -xzf "$release_file" -C "$ASDF_DOWNLOAD_PATH" || fail "Could not extract $release_file"
-
-# Remove the tar.gz file since we don't need to keep it
-rm "$release_file"
+DOJO_DIR="${ASDF_DOWNLOAD_PATH}" dojoup install "${ASDF_INSTALL_VERSION}"

@@ -33,6 +33,11 @@ list_all_versions() {
 	list_github_tags
 }
 
+download_dojoup() {
+	url="https://raw.githubusercontent.com/dojoengine/dojo/refs/heads/main/dojoup/dojoup"
+	curl "${curl_opts[@]}" -o "$ASDF_DOWNLOAD_PATH/dojoup" -C - "$url" || fail "Could not download Dojoup from $url"
+}
+
 download_release() {
 	local version filename url
 	version="$1"
