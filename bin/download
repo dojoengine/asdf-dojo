@@ -12,4 +12,4 @@ mkdir -p "${ASDF_DOWNLOAD_PATH}"
 
 download_dojoup
 
-DOJO_DIR="${ASDF_DOWNLOAD_PATH}" dojoup install "${ASDF_INSTALL_VERSION}"
+DOJO_DIR="${ASDF_DOWNLOAD_PATH}" "${ASDF_DOWNLOAD_PATH}/dojoup" install "${ASDF_INSTALL_VERSION}"
